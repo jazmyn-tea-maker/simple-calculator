@@ -1,7 +1,5 @@
-//Make functions for each: add, subtract, multiply, divide.
-//They each take two values.
 
-let number = ''; //It's already in a function and won't freak out.
+let number = ''; 
 let number2 = '';
 
 // So when the user clicks on the keyboard, I want the buttons corresponding to 
@@ -16,6 +14,7 @@ let operate = (operation, num1, num2) => {
         let answer;
         n1 = parseInt(num1);
         n2 = parseInt(num2);
+        console.log(num2);
 
         switch (operation) {
             case 'add':
@@ -31,8 +30,8 @@ let operate = (operation, num1, num2) => {
                 answer = n1 / n2;
         }
 
-        number = '';
-        number2 = ''; //Resets.
+        number = ''; //Falsey so that
+        number2 = ''; //in the numAndOpConfirm func, it'll set the first number correctly.
         return document.getElementById('user-num').innerText = answer;
 
     
@@ -40,13 +39,12 @@ let operate = (operation, num1, num2) => {
 
 
 let numAndOpConfirm = (operation) => {
-
-    if (!number) {
+    if (!number) { //If it's falsey, or '', it'll use what was 'inputted'.
         number = document.getElementById('user-num').innerText;
     }
     document.getElementById('user-num').innerText = '0'
 
-    let enterFunc = (e) => { //Applies to the whole page.
+    let enterFunc = (e) => { 
         if (e.key == 'Enter' || e.eventCode == 13) {
             number2 = document.getElementById('user-num').innerText;;
             operate(operation, number, number2);
@@ -54,17 +52,18 @@ let numAndOpConfirm = (operation) => {
         }
     }
 
-    addEventListener('keydown', enterFunc);
+    addEventListener('keydown', enterFunc); //Applies to the whole page, when user clicks enter.
 
     let equalBtn = document.getElementById('equal-btn');
     
-    let equalFunc = () =>{
-        number2 = document.getElementById('user-num').innerText;;
+    let equalFunc = () =>{ //Event listeners don't get replaced (overwritten), dummy!
+        number2 = document.getElementById('user-num').innerText;
+        console.log(operation);
         operate(operation, number, number2);
         equalBtn.removeEventListener('click', equalFunc);
     }
 
-    equalBtn.addEventListener('click', equalFunc);
+    equalBtn.onclick = equalFunc; // Unless they do, of course. (Line 62)
 }
 
 
@@ -72,45 +71,41 @@ let numAndOpConfirm = (operation) => {
 
 document.getElementById('add-btn').addEventListener('mouseup', function adder () {
     numAndOpConfirm( 'add' );
-}, false);
+}); 
 
 document.getElementById('subtract-btn').addEventListener('mouseup', function subtracter () {
     numAndOpConfirm( 'subtract' );
-}, false);
+});
 
 document.getElementById('multiply-btn').addEventListener('mouseup', function multiplier () {
     numAndOpConfirm( 'multiply' );
-}, false);
+});
 
 document.getElementById('divide-btn').addEventListener('mouseup', function divider () {
     numAndOpConfirm( 'divide' );
-}, false);
+});
 
 
 let numberAdd = (e) => {
     n = e.target.id;
     let num = document.getElementById('user-num').innerText;
-    if (num == '0') {
+    if (num == '0') { //So zero is replaced instead of crammed onto.
         num = '';
     }
-    num += n;
-    document.getElementById('user-num').innerText = num;
+    document.getElementById('user-num').innerText = num + n;
 }
 
-for (i = 0; i <= 9; i++) {
+for (i = 0; i <= 9; i++) { //Lazy way to add event listeners to the numpad btns.
+    //Who would want to write all that...?
     document.getElementById(`${i}`).addEventListener('click', numberAdd);
 }
 
 let numberDelete = () => {
     currentNum = document.getElementById('user-num').innerText;
-    if (currentNum == '0') {
-        document.getElementById('user-num').innerText = '0';
-        return;
-    }
     currentNum = currentNum.split('');
     currentNum.pop();
     currentNum = currentNum.join('');
-    if (currentNum == '') {
+    if (currentNum == '') { //I wanted a zero in place of blankness.
         document.getElementById('user-num').innerText = '0';
         return;
     }
@@ -125,9 +120,9 @@ let numberClear = () => {
     number2 = '';
 }
 
-addEventListener('keydown', function(e) { //Applies to the whole page.
+addEventListener('keydown', function(e) { //Applies to the whole page when delete is pressed.
     if (e.key == 'Backspace' || e.eventCode == 8){
-        numberClear();
+        numberDelete();
     }
 })
 
