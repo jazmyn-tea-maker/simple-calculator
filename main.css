@@ -1,0 +1,48 @@
+#calculator-bg {
+    display: block;
+    direction: rtl;
+    position: relative;
+    width: 270px;
+    height: 270px;
+}
+
+#user-num {
+    position: relative;
+    display: block;
+    margin: 0 auto 0 auto;
+    padding: 0;
+    top: 10px;
+    width: 230px;
+    height: 30px;
+    overflow: hidden;
+}
+
+.num-div > div, .function-btns > div {
+    height: 40px;
+    width: 40px;
+    line-height: 40px;
+    position: relative;
+    background-color: gray;
+    cursor: pointer;
+}
+
+.num-div {
+    margin: 0 10px 0 10px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat((3, 1fr));
+    gap: 10px;
+    float: left;
+    text-align: center;
+}
+
+.function-btns {
+    margin: 0 10px 0 10px;
+    display: grid;
+    float: right;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat((3, 1fr));
+    gap: 10px;
+    text-align: center;
+}
+

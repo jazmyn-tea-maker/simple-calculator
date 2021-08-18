@@ -45,7 +45,7 @@ let numAndOpConfirm = (num, operation) => {
         operate(operation, number, number2);
     }
 
-    addEventListener(function() { //Applies to the whole page.
+    addEventListener('keydown', function(e) { //Applies to the whole page.
         if (e.key == 'Enter' || e.eventCode == 13) {
             if (number) {
                 number2 = num;
@@ -67,16 +67,58 @@ let numAndOpConfirm = (num, operation) => {
 
 let currentNum = parseInt(document.getElementById('user-num').innerText);
 
-document.getElementById('add-btn')
-    .addEventListener('click', numAndOpConfirm('add', currentNum));
+document.getElementById('add-btn').addEventListener('click', numAndOpConfirm('add', currentNum));
 
-document.getElementById('subtract-btn')
-    .addEventListener('click', numAndOpConfirm('subtract', currentNum));
+document.getElementById('subtract-btn').addEventListener('click', numAndOpConfirm('subtract', currentNum));
 
-document.getElementById('multiply-btn')
-    .addEventListener('click', numAndOpConfirm('multiply', currentNum));
+document.getElementById('multiply-btn').addEventListener('click', numAndOpConfirm('multiply', currentNum));
 
-document.getElementById('divide-btn')
-    .addEventListener('click', numAndOpConfirm('divide', currentNum));
+document.getElementById('divide-btn').addEventListener('click', numAndOpConfirm('divide', currentNum));
 
 
+let numberAdd = (e) => {
+    n = e.target.id;
+    let num = document.getElementById('user-num').innerText;
+    if (num == '0') {
+        num = '';
+    }
+    num += n;
+    document.getElementById('user-num').innerText = num;
+}
+
+for (i = 0; i <= 9; i++) {
+    document.getElementById(`${i}`).addEventListener('click', numberAdd);
+}
+
+let numberDelete = () => {
+    currentNum = document.getElementById('user-num').innerText;
+    if (currentNum == '0') {
+        document.getElementById('user-num').innerText = '0';
+        return;
+    }
+    currentNum = currentNum.split('');
+    currentNum.pop();
+    currentNum = currentNum.join('');
+    if (currentNum == '') {
+        document.getElementById('user-num').innerText = '0';
+        return;
+    }
+    document.getElementById('user-num').innerText = currentNum;
+}
+
+document.getElementById('delete-btn').addEventListener('click', numberDelete);
+
+let numberClear = () => {
+    document.getElementById('user-num').innerText = '0';
+}
+
+addEventListener('keydown', function(e) { //Applies to the whole page.
+    if (e.key == 'Backspace' || e.eventCode == 8){
+        currentNum = document.getElementById('user-num').innerText.split('');
+        currentNum.pop();
+        currentNum = currentNum.join('');
+        document.getElementById('user-num').innerText = currentNum;
+    }
+})
+
+document.getElementById('clear-btn').addEventListener('click', numberClear);
