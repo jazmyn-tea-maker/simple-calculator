@@ -2,8 +2,13 @@
 let number = ''; 
 let number2 = '';
 
-// So when the user clicks on the keyboard, I want the buttons corresponding to 
+// 1. So when the user clicks on the keyboard, I want the buttons corresponding to 
 // change the inner text of the element displaying number and number2.
+
+// 2. Also, I want the exponent and negative buttons to work. 
+
+// 3. 
+
 // Also, when the first number is confirmed, it should be displayed in a lighter tone to the
 // side. And when the user clicks an operation button, it'll show up to the side.
 // When both numbers are confirmed, the answer will be larger and to the right, the full expression to
@@ -69,19 +74,19 @@ let numAndOpConfirm = (operation) => {
 
 
 
-document.getElementById('add-btn').addEventListener('mouseup', function adder () {
+document.getElementById('add-btn').addEventListener('click', function adder () {
     numAndOpConfirm( 'add' );
 }); 
 
-document.getElementById('subtract-btn').addEventListener('mouseup', function subtracter () {
+document.getElementById('subtract-btn').addEventListener('click', function subtracter () {
     numAndOpConfirm( 'subtract' );
 });
 
-document.getElementById('multiply-btn').addEventListener('mouseup', function multiplier () {
+document.getElementById('multiply-btn').addEventListener('click', function multiplier () {
     numAndOpConfirm( 'multiply' );
 });
 
-document.getElementById('divide-btn').addEventListener('mouseup', function divider () {
+document.getElementById('divide-btn').addEventListener('click', function divider () {
     numAndOpConfirm( 'divide' );
 });
 
