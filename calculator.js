@@ -1,15 +1,19 @@
 //Make functions for each: add, subtract, multiply, divide.
 //They each take two values.
 
-let functionState; //Bug catch: if the user doesn't click the equal sign right away,
-let number; //It's already in a function and won't freak out.
-let number2;
+let number = ''; //It's already in a function and won't freak out.
+let number2 = '';
 
-//Connect each button to each operation string.
+// So when the user clicks on the keyboard, I want the buttons corresponding to 
+// change the inner text of the element displaying number and number2.
+// Also, when the first number is confirmed, it should be displayed in a lighter tone to the
+// side. And when the user clicks an operation button, it'll show up to the side.
+// When both numbers are confirmed, the answer will be larger and to the right, the full expression to
+// the side with the other lighter toned ones.
 
 let operate = (operation, num1, num2) => {
 
-    let add = (n1, n2) => {
+    let add = (n1, n2) => { 
         return n1 + n2;
     };
 
@@ -33,14 +37,46 @@ let operate = (operation, num1, num2) => {
 };
 
 
-// Here's how it goes: 
-// User types or clicks in a number.
-// It is confirmed as the first number variable value 
-// AFTER clicking any of the operation buttons.
-// Also when the function button is presssed,
-// it will add an event listener to
-// the equal sign which returns the operate function.
-// The value returned for that becomes value number 1, and the
-// cycle repeats.
+let numAndOpConfirm = (num, operation) => {
+    if (!number) { //If the number does not exist, the current input will do.
+        number = num;
+    }
+    if (number && number2) { //Bug catch--If user cheekily clicks a function button instead of the equal button/enter key.
+        operate(operation, number, number2);
+    }
+
+    addEventListener(function() { //Applies to the whole page.
+        if (e.key == 'Enter' || e.eventCode == 13) {
+            if (number) {
+                number2 = num;
+                operate(operation, number, number2);
+            }
+        }
+    })
+    
+    let equalBtn = document.getElementById('equal-btn');
+    equalBtn.addEventListener('click', function () {
+        if (number) {
+            number2 = num;
+            operate(operation, number, number2);
+            number = '';
+            number2 = '';
+        }
+    })
+}
+
+let currentNum = parseInt(document.getElementById('user-num').innerText);
+
+document.getElementById('add-btn')
+    .addEventListener('click', numAndOpConfirm('add', currentNum));
+
+document.getElementById('subtract-btn')
+    .addEventListener('click', numAndOpConfirm('subtract', currentNum));
+
+document.getElementById('multiply-btn')
+    .addEventListener('click', numAndOpConfirm('multiply', currentNum));
+
+document.getElementById('divide-btn')
+    .addEventListener('click', numAndOpConfirm('divide', currentNum));
 
 
