@@ -13,67 +13,78 @@ let number2 = '';
 
 let operate = (operation, num1, num2) => {
 
-    let add = (n1, n2) => { 
-        return n1 + n2;
-    };
+        let answer;
+        n1 = parseInt(num1);
+        n2 = parseInt(num2);
 
-    let subtract = (n1, n2) => {
-        return n1 - n2;
-    };
+        switch (operation) {
+            case 'add':
+                answer = n1 + n2;
+                break;
+            case 'subtract':
+                answer = n1 - n2;
+                break;
+            case 'multiply':
+                answer = n1 * n2;
+                break;
+            case 'divide':
+                answer = n1 / n2;
+        }
 
-    let multiply = (n1, n2) => {
-        return n1 * n2;
-    };
+        number = '';
+        number2 = ''; //Resets.
+        return document.getElementById('user-num').innerText = answer;
 
-    let divide = (n1, n2) => {
-        return n1 / n2;
-    };
-
-    return operation === 'add' ? add(num1, num2) :
-    operation === 'subtract' ? subtract(num1, num2) :
-    operation === 'multiply' ? multiply(num1, num2) :
-    operation === 'divide' ? divide(num1, num2) :
-    false;
+    
 };
 
 
-let numAndOpConfirm = (num, operation) => {
-    if (!number) { //If the number does not exist, the current input will do.
-        number = num;
+let numAndOpConfirm = (operation) => {
+
+    if (!number) {
+        number = document.getElementById('user-num').innerText;
     }
-    if (number && number2) { //Bug catch--If user cheekily clicks a function button instead of the equal button/enter key.
-        operate(operation, number, number2);
+    document.getElementById('user-num').innerText = '0'
+
+    let enterFunc = (e) => { //Applies to the whole page.
+        if (e.key == 'Enter' || e.eventCode == 13) {
+            number2 = document.getElementById('user-num').innerText;;
+            operate(operation, number, number2);
+            removeEventListener('keydown', enterFunc);
+        }
     }
 
-    addEventListener('keydown', function(e) { //Applies to the whole page.
-        if (e.key == 'Enter' || e.eventCode == 13) {
-            if (number) {
-                number2 = num;
-                operate(operation, number, number2);
-            }
-        }
-    })
-    
+    addEventListener('keydown', enterFunc);
+
     let equalBtn = document.getElementById('equal-btn');
-    equalBtn.addEventListener('click', function () {
-        if (number) {
-            number2 = num;
-            operate(operation, number, number2);
-            number = '';
-            number2 = '';
-        }
-    })
+    
+    let equalFunc = () =>{
+        number2 = document.getElementById('user-num').innerText;;
+        operate(operation, number, number2);
+        equalBtn.removeEventListener('click', equalFunc);
+    }
+
+    equalBtn.addEventListener('click', equalFunc);
 }
 
-let currentNum = parseInt(document.getElementById('user-num').innerText);
 
-document.getElementById('add-btn').addEventListener('click', numAndOpConfirm('add', currentNum));
 
-document.getElementById('subtract-btn').addEventListener('click', numAndOpConfirm('subtract', currentNum));
 
-document.getElementById('multiply-btn').addEventListener('click', numAndOpConfirm('multiply', currentNum));
+document.getElementById('add-btn').addEventListener('mouseup', function adder () {
+    numAndOpConfirm( 'add' );
+}, false);
 
-document.getElementById('divide-btn').addEventListener('click', numAndOpConfirm('divide', currentNum));
+document.getElementById('subtract-btn').addEventListener('mouseup', function subtracter () {
+    numAndOpConfirm( 'subtract' );
+}, false);
+
+document.getElementById('multiply-btn').addEventListener('mouseup', function multiplier () {
+    numAndOpConfirm( 'multiply' );
+}, false);
+
+document.getElementById('divide-btn').addEventListener('mouseup', function divider () {
+    numAndOpConfirm( 'divide' );
+}, false);
 
 
 let numberAdd = (e) => {
@@ -110,14 +121,13 @@ document.getElementById('delete-btn').addEventListener('click', numberDelete);
 
 let numberClear = () => {
     document.getElementById('user-num').innerText = '0';
+    number = '';
+    number2 = '';
 }
 
 addEventListener('keydown', function(e) { //Applies to the whole page.
     if (e.key == 'Backspace' || e.eventCode == 8){
-        currentNum = document.getElementById('user-num').innerText.split('');
-        currentNum.pop();
-        currentNum = currentNum.join('');
-        document.getElementById('user-num').innerText = currentNum;
+        numberClear();
     }
 })
 
