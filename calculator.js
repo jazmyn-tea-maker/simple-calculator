@@ -12,7 +12,6 @@ let operate = (operation, num1, num2) => {
         let answer;
         n1 = parseInt(num1);
         n2 = parseInt(num2);
-        console.log(num2);
 
         switch (operation) {
             case 'add':
@@ -51,9 +50,31 @@ let numAndOpConfirm = (operation) => {
     }
     document.getElementById('user-num').innerText = '0';
 
+    let op;
+    if (operation == 'add') {
+        op = '+';
+    } else if (operation == 'subtract') {
+        op = '-'
+    } else if (operation == 'multiply') {
+        op = '&times;'
+    } else if (operation == 'divide') {
+        op = '&divide;'
+    } else if (operation == 'exponent') {
+        op = '^'
+    }
+    document.getElementById('expression').innerHTML = `${number} ${op}`;
+
     let enterFunc = (e) => { 
         if (e.key == 'Enter' || e.eventCode == 13) {
-            number2 = document.getElementById('user-num').innerText;;
+
+            let expression = document.getElementById('expression').innerText;
+            number2 = document.getElementById('user-num').innerText;
+            document.getElementById('expression').innerText = `${expression} ${number2} =`
+
+            if (operation == 'exponent') {
+                document.getElementById('expression').innerText = `${expression} <sup>${number2}</sup> =`
+            }
+
             operate(operation, number, number2);
             removeEventListener('keydown', enterFunc);
         }
@@ -64,7 +85,14 @@ let numAndOpConfirm = (operation) => {
     let equalBtn = document.getElementById('equal-btn');
     
     let equalFunc = () =>{ //Event listeners don't get replaced (overwritten), dummy!
+        let expression = document.getElementById('expression').innerText;
         number2 = document.getElementById('user-num').innerText;
+        document.getElementById('expression').innerText = `${expression} ${number2} =`
+
+        if (operation == 'exponent') {
+            document.getElementById('expression').innerHTML = `${number} <sup>${number2}</sup> =`
+        }
+
         operate(operation, number, number2);
         equalBtn.removeEventListener('click', equalFunc);
     }
@@ -120,6 +148,7 @@ let numberDelete = () => {
     currentNum = currentNum.join('');
     if (currentNum == '') { //I wanted a zero in place of blankness.
         document.getElementById('user-num').innerText = '0';
+        document.getElementById('expression').innerText = '';
         return;
     }
     document.getElementById('user-num').innerText = currentNum;
@@ -129,6 +158,7 @@ document.getElementById('delete-btn').addEventListener('click', numberDelete);
 
 let numberClear = () => {
     document.getElementById('user-num').innerText = '0';
+    document.getElementById('expression').innerText = '';
     number = '';
     number2 = '';
 }

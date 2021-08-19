@@ -9,14 +9,28 @@
 #user-num {
     position: relative;
     display: block;
-    margin: 0 auto 0 auto;
+    margin: 0 20px 0 auto;
     padding: 0;
     top: 10px;
-    width: 230px;
+    width: 115px;
     height: 30px;
     overflow: hidden;
     unicode-bidi: plaintext;
     text-align: right;
+}
+
+#expression {
+    color: rgb(165, 165, 165);
+    position: relative;
+    display: block;
+    margin: 0 auto 0 20px;
+    padding: 0;
+    top: 40px;
+    width: 115px;
+    height: 30px;
+    overflow: hidden;
+    unicode-bidi: plaintext;
+    text-align: left;
 }
 
 .num-div > div, .function-btns > div {
