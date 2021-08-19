@@ -1,18 +1,25 @@
+body {
+    background-color: rgb(180, 230, 173);
+}
 #calculator-bg {
     display: block;
     direction: rtl;
     position: relative;
     width: 270px;
-    height: 270px;
+    height: 285px;
+    border-radius: 10px;
+    background-color: rgb(48, 44, 59);
 }
 
 #user-num {
     position: relative;
+    background-color: rgb(179, 192, 218);
+    border-radius: 10px;
     display: block;
-    margin: 0 20px 0 auto;
-    padding: 0;
-    top: 10px;
-    width: 115px;
+    margin: 0 15px 0 auto;
+    padding: 5px;
+    bottom: 15px;
+    width: 120px;
     height: 30px;
     overflow: hidden;
     unicode-bidi: plaintext;
@@ -20,13 +27,15 @@
 }
 
 #expression {
-    color: rgb(165, 165, 165);
+    background-color: rgb(179, 192, 218);
+    border-radius: 10px;
+    color: rgb(122, 122, 122);
     position: relative;
     display: block;
-    margin: 0 auto 0 20px;
-    padding: 0;
-    top: 40px;
-    width: 115px;
+    margin: 0 auto 0 15px;
+    padding: 5px;
+    top: 25px;
+    width: 120px;
     height: 30px;
     overflow: hidden;
     unicode-bidi: plaintext;
@@ -40,6 +49,7 @@
     position: relative;
     background-color: gray;
     cursor: pointer;
+    border-radius: 3px;
 }
 
 .num-div {
@@ -69,7 +79,16 @@
     height: 40px;
     line-height: 40px;
     position: relative;
-    background-color: gray;
+    background-color: rgb(86, 187, 86);
     cursor: pointer;
     text-align: center;
+}
+
+
+#delete-btn {
+    background-color: rgb(250, 117, 117);
+}
+
+#clear-btn {
+    background-color: rgb(255, 255, 138);
 }
