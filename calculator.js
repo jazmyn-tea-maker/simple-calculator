@@ -2,13 +2,6 @@
 let number = ''; 
 let number2 = '';
 
-// 1. So when the user clicks on the keyboard, I want the buttons corresponding to 
-// change the inner text of the element displaying number and number2.
-
-// 2. Also, I want the exponent and negative buttons to work. 
-
-// 3. 
-
 // Also, when the first number is confirmed, it should be displayed in a lighter tone to the
 // side. And when the user clicks an operation button, it'll show up to the side.
 // When both numbers are confirmed, the answer will be larger and to the right, the full expression to
@@ -33,6 +26,9 @@ let operate = (operation, num1, num2) => {
                 break;
             case 'divide':
                 answer = n1 / n2;
+                break;
+            case 'exponent':
+                answer = n1 ** n2;
         }
 
         number = ''; //Falsey so that
@@ -44,10 +40,16 @@ let operate = (operation, num1, num2) => {
 
 
 let numAndOpConfirm = (operation) => {
+    
     if (!number) { //If it's falsey, or '', it'll use what was 'inputted'.
         number = document.getElementById('user-num').innerText;
     }
-    document.getElementById('user-num').innerText = '0'
+    if (operation == 'negative') {
+        number2 = -1;
+        operate('multiply', number, number2); //Easier to just use a function that's already there.
+        return;
+    }
+    document.getElementById('user-num').innerText = '0';
 
     let enterFunc = (e) => { 
         if (e.key == 'Enter' || e.eventCode == 13) {
@@ -63,7 +65,6 @@ let numAndOpConfirm = (operation) => {
     
     let equalFunc = () =>{ //Event listeners don't get replaced (overwritten), dummy!
         number2 = document.getElementById('user-num').innerText;
-        console.log(operation);
         operate(operation, number, number2);
         equalBtn.removeEventListener('click', equalFunc);
     }
@@ -90,6 +91,13 @@ document.getElementById('divide-btn').addEventListener('click', function divider
     numAndOpConfirm( 'divide' );
 });
 
+document.getElementById('expo-btn').addEventListener('click', function exponent () {
+    numAndOpConfirm( 'exponent' );
+});
+
+document.getElementById('neg-btn').addEventListener('click', function makeNeg () {
+    numAndOpConfirm( 'negative' );
+});
 
 let numberAdd = (e) => {
     n = e.target.id;
@@ -125,9 +133,37 @@ let numberClear = () => {
     number2 = '';
 }
 
+let numberAddKeyBoard = (n) => {
+    let num = document.getElementById('user-num').innerText;
+    if (num == '0') { //So zero is replaced instead of crammed onto.
+        num = '';
+    }
+    document.getElementById('user-num').innerText = num + n;
+}
+
 addEventListener('keydown', function(e) { //Applies to the whole page when delete is pressed.
     if (e.key == 'Backspace' || e.eventCode == 8){
         numberDelete();
+    }
+    for (i = 0; i <= 9; i++) {
+        for (j = 48; j <= 57; j++) { //Event codes go from 48 (0) to 57 (9).
+            if (e.key == i || e.eventCode == j) {
+                numberAddKeyBoard(i);
+                return;
+            }
+        }
+    }
+    if (e.key == '-' || e.eventCode == 173) {
+        numAndOpConfirm('subtract');
+    }
+    if (e.key == '+' || e.eventCode == 61) {
+        numAndOpConfirm('add');
+    }
+    if (e.key == '*' || e.eventCode == 56) {
+        numAndOpConfirm('multiply');
+    }
+    if (e.key == '/' || e.eventCode == 191) {
+        numAndOpConfirm('divide');
     }
 })
 
