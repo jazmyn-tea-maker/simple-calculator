@@ -1,4 +1,6 @@
 
+console.log('A history of operations will be logged here, in the console!')
+
 let number = ''; 
 let number2 = '';
 
@@ -32,6 +34,13 @@ let operate = (operation, num1, num2) => {
 
         number = ''; //Falsey so that
         number2 = ''; //in the numAndOpConfirm func, it'll set the first number correctly.
+        
+        let expression = document.getElementById('expression').innerText;
+        if (operation == 'exponent') {
+            expression = `${n1} ^ ${n2} =`;
+        }
+
+        console.log(`${expression} ${answer}`);
         return document.getElementById('user-num').innerText = answer;
 
     
