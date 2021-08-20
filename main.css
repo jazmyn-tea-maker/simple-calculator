@@ -133,7 +133,7 @@ body {
     position: relative;
     background-color: rgb(132, 223, 235);
     cursor: pointer;
-    border-radius: 3px;
+    border-radius: 2px;
 }
 
 #decimal-btn:active {
