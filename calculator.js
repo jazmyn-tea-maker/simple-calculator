@@ -1,5 +1,5 @@
 
-console.log('%c A history of operations will be logged in the console. You can also go through old operations using the up and down arrow keys. Enjoy! :)', 'color: blue; font-size: 15px')
+console.log('%c A history of operations will be logged in the console. You can also go through old operations using the up and down arrow keys. Also, you can add decimals with your keyboard. Enjoy! :)', 'color: blue; font-size: 15px')
 
 let number = ''; 
 let number2 = '';
@@ -9,8 +9,8 @@ let placeInPast;
 let operate = (operation, num1, num2) => {
 
     let answer;
-    n1 = parseInt(num1);
-    n2 = parseInt(num2);
+    n1 = parseFloat(num1);
+    n2 = parseFloat(num2);
 
     let reset = () => {
         document.getElementById('user-num').style = `
@@ -116,7 +116,7 @@ let numAndOpConfirm = (operation) => {
         equalBtn.removeEventListener('click', equals);
     }; // Unless event listeners do get overwritten, of course...dummy!
     
-    addEventListener('keydown', function equalEnter (e) {
+    addEventListener('keydown', function equalEnter (e) {//Never forget...E.
         if (e.key == 'Enter' || e.eventCode == 13) {
             equalFunc();
             removeEventListener('keydown', equalEnter);
@@ -165,6 +165,15 @@ for (i = 0; i <= 9; i++) { //Lazy way to add event listeners to the numpad btns.
     document.getElementById(`${i}`).addEventListener('click', numberAdd);
 }
 
+document.getElementById('decimal-btn').addEventListener('click', function decimalAdd () {
+    let currentNum = document.getElementById('user-num').innerText.split('');
+    if (currentNum.every(num => num != '.')) {
+        numberAddKeyBoard('.');
+    } else {
+        return;
+    }
+})
+
 let numberDelete = () => {
     currentNum = document.getElementById('user-num').innerText;
     currentNum = currentNum.split('');
@@ -206,6 +215,16 @@ addEventListener('keydown', function(e) { //Applies to the whole page when delet
             }
         }
     }
+
+    if (e.key == '.' || e.eventCode == 190) {
+        let currentNum = document.getElementById('user-num').innerText.split('');
+        if (currentNum.every(num => num != '.')) {
+            numberAddKeyBoard('.');
+        } else {
+            return;
+        }
+    }
+
     if (e.key == '-' || e.eventCode == 173) {
         numAndOpConfirm('subtract');
     }
