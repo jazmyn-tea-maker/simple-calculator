@@ -67,6 +67,10 @@ body {
     text-align: center;
 }
 
+.num-div > div:active {
+    background-color: rgb(116, 116, 116);
+}
+
 .function-btns {
     margin: 0 30px 0 10px;
     display: grid;
@@ -90,13 +94,25 @@ body {
     background-color: rgb(86, 187, 86);
 }
 
+#equal-btn:active {
+    background-color: rgb(48, 143, 48);
+}
+
 
 #delete-btn {
     background-color: rgb(250, 117, 117);
 }
 
+#delete-btn:active {
+    background-color: rgb(192, 57, 57);
+}
+
 #clear-btn {
     background-color: rgb(255, 255, 138);
+}
+
+#clear-btn:active {
+    background-color: rgb(197, 197, 70);
 }
 
 #expo-btn {

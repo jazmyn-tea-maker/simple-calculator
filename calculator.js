@@ -1,5 +1,5 @@
 
-console.log('%c A history of operations will be logged in the console. You can also go to old operations using the up arrow key. Enjoy! :)', 'color: blue; font-size: 15px')
+console.log('%c A history of operations will be logged in the console. You can also go through old operations using the up and down arrow keys. Enjoy! :)', 'color: blue; font-size: 15px')
 
 let number = ''; 
 let number2 = '';
@@ -76,7 +76,7 @@ let numAndOpConfirm = (operation) => {
     }
     if (operation == 'negative') {
         number2 = -1;
-        operate('multiply', number, number2); //Easier to just use a function that's already there.
+        operate('multiply', number, number2); //Easier to just use a function that's already there, no need to make a new case.
         return;
     }
     document.getElementById('user-num').innerText = '0';
@@ -94,40 +94,34 @@ let numAndOpConfirm = (operation) => {
         op = '^'
     }
     document.getElementById('expression').innerHTML = `${number} ${op}`;
-
-    let enterFunc = (e) => { 
-        if (e.key == 'Enter' || e.eventCode == 13) {
-
-            let expression = document.getElementById('expression').innerText;
-            number2 = document.getElementById('user-num').innerText;
-            document.getElementById('expression').innerText = `${expression} ${number2} =`
-
-            if (operation == 'exponent') {
-                document.getElementById('expression').innerText = `${expression} <sup>${number2}</sup> =`
-            }
-
-            operate(operation, number, number2);
-            removeEventListener('keydown', enterFunc);
-        }
-    }
-
-    addEventListener('keydown', enterFunc); //Applies to the whole page, when user clicks enter.
-
-    let equalBtn = document.getElementById('equal-btn');
     
     let equalFunc = () =>{ //Event listeners don't get replaced (overwritten), dummy!
         let expression = document.getElementById('expression').innerText;
         number2 = document.getElementById('user-num').innerText;
-        document.getElementById('expression').innerText = `${expression} ${number2} =`
-
-        if (operation == 'exponent') {
-            document.getElementById('expression').innerHTML = `${number} <sup>${number2}</sup> =`
+        if (number && number2) {
+            if (operation == 'exponent') {
+                document.getElementById('expression').innerHTML = `${number} <sup>${number2}</sup> =`
+            } else {
+                document.getElementById('expression').innerText = `${expression} ${number2} =`
+            }
+            operate(operation, number, number2);
         }
-        operate(operation, number, number2);
-        equalBtn.removeEventListener('click', equalFunc);
+        return;
     }
 
-    equalBtn.onclick = equalFunc; // Unless they do, of course. (Line 62)
+    let equalBtn = document.getElementById('equal-btn');
+
+    equalBtn.onclick = function equals () {
+        equalFunc();
+        equalBtn.removeEventListener('click', equals);
+    }; // Unless event listeners do get overwritten, of course...dummy!
+    
+    addEventListener('keydown', function equalEnter (e) {
+        if (e.key == 'Enter' || e.eventCode == 13) {
+            equalFunc();
+            removeEventListener('keydown', equalEnter);
+        }
+    }); //Applies to the whole page, when user clicks enter.
 }
 
 
@@ -178,7 +172,6 @@ let numberDelete = () => {
     currentNum = currentNum.join('');
     if (currentNum == '') { //I wanted a zero in place of blankness.
         document.getElementById('user-num').innerText = '0';
-        document.getElementById('expression').innerText = '';
         return;
     }
     document.getElementById('user-num').innerText = currentNum;
@@ -232,7 +225,6 @@ addEventListener('keydown', function(e) { //Applies to the whole page when delet
         } else {
             return;
         }
-        console.log(placeInPast + ' Up');
         if (pastOpsArr.length > 0 && placeInPast >= 0) {
             document.getElementById('expression').innerHTML = pastOpsArr[placeInPast].exp;
             document.getElementById('user-num').innerText = pastOpsArr[placeInPast].ans;
@@ -245,7 +237,6 @@ addEventListener('keydown', function(e) { //Applies to the whole page when delet
         } else {
             return;
         }
-        console.log(placeInPast + ' Down');
         if (pastOpsArr.length > 0 && placeInPast < pastOpsArr.length) {
             document.getElementById('expression').innerHTML = pastOpsArr[placeInPast].exp;
             document.getElementById('user-num').innerText = pastOpsArr[placeInPast].ans;
