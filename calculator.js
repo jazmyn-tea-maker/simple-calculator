@@ -1,47 +1,69 @@
 
-console.log('A history of operations will be logged here, in the console!')
+console.log('%c A history of operations will be logged in the console. You can also go to old operations using the up arrow key. Enjoy! :)', 'color: blue; font-size: 15px')
 
 let number = ''; 
 let number2 = '';
-
-// Also, when the first number is confirmed, it should be displayed in a lighter tone to the
-// side. And when the user clicks an operation button, it'll show up to the side.
-// When both numbers are confirmed, the answer will be larger and to the right, the full expression to
-// the side with the other lighter toned ones.
+let pastOpsArr = [];
+let placeInPast;
 
 let operate = (operation, num1, num2) => {
 
-        let answer;
-        n1 = parseInt(num1);
-        n2 = parseInt(num2);
+    let answer;
+    n1 = parseInt(num1);
+    n2 = parseInt(num2);
 
-        switch (operation) {
-            case 'add':
-                answer = n1 + n2;
-                break;
-            case 'subtract':
-                answer = n1 - n2;
-                break;
-            case 'multiply':
-                answer = n1 * n2;
-                break;
-            case 'divide':
-                answer = n1 / n2;
-                break;
-            case 'exponent':
-                answer = n1 ** n2;
-        }
+    let reset = () => {
+        document.getElementById('user-num').style = `
+        font-size: 40px;
+        line-height: auto;
+        `;
+        document.getElementById('user-num').innerText = '0';
+        document.getElementById('expression').innerText = '';
+        number = '';
+        number2 = '';
+    };
 
-        number = ''; //Falsey so that
-        number2 = ''; //in the numAndOpConfirm func, it'll set the first number correctly.
-        
-        let expression = document.getElementById('expression').innerText;
-        if (operation == 'exponent') {
-            expression = `${n1} ^ ${n2} =`;
-        }
+    switch (operation) {
+        case 'add':
+            answer = n1 + n2;
+            break;
+        case 'subtract':
+            answer = n1 - n2;
+            break;
+        case 'multiply':
+            answer = n1 * n2;
+            break;
+        case 'divide':
+            if (n1 == 0 && n2 == 0) {
+                answer = 'Not cool, dude.'
+                document.getElementById('user-num').style = `
+                font-size: 25px;
+                line-height: 55px;
+                `;
+                setTimeout(reset, 900);
+                break;
+            }
+            answer = n1 / n2;
+            break;
+        case 'exponent':
+            answer = n1 ** n2;
+    }
 
-        console.log(`${expression} ${answer}`);
-        return document.getElementById('user-num').innerText = answer;
+    number = ''; //Falsey so that
+    number2 = ''; //in the numAndOpConfirm func, it'll set the first number correctly.
+    
+    let expression = document.getElementById('expression').innerText;
+    if (operation == 'exponent') {
+        expression = `${n1} ^ ${n2} =`;
+    }
+
+    console.log(`${expression} ${answer}`);
+    pastOpsArr.push ({
+        exp: expression,
+        ans: answer
+    });
+    placeInPast = pastOpsArr.length - 1
+    return document.getElementById('user-num').innerText = answer;
 
     
 };
@@ -101,7 +123,6 @@ let numAndOpConfirm = (operation) => {
         if (operation == 'exponent') {
             document.getElementById('expression').innerHTML = `${number} <sup>${number2}</sup> =`
         }
-
         operate(operation, number, number2);
         equalBtn.removeEventListener('click', equalFunc);
     }
@@ -203,6 +224,32 @@ addEventListener('keydown', function(e) { //Applies to the whole page when delet
     }
     if (e.key == '/' || e.eventCode == 191) {
         numAndOpConfirm('divide');
+    }
+
+    if (e.key == 'ArrowUp' || e.eventCode == 38) {
+        if (placeInPast - 1 >= 0) {
+            placeInPast = placeInPast - 1;
+        } else {
+            return;
+        }
+        console.log(placeInPast + ' Up');
+        if (pastOpsArr.length > 0 && placeInPast >= 0) {
+            document.getElementById('expression').innerHTML = pastOpsArr[placeInPast].exp;
+            document.getElementById('user-num').innerText = pastOpsArr[placeInPast].ans;
+        }
+    }
+
+    if (e.key == 'ArrowDown' || e.eventCode == 40) {
+        if (placeInPast + 1  < pastOpsArr.length) {
+            placeInPast = placeInPast + 1;
+        } else {
+            return;
+        }
+        console.log(placeInPast + ' Down');
+        if (pastOpsArr.length > 0 && placeInPast < pastOpsArr.length) {
+            document.getElementById('expression').innerHTML = pastOpsArr[placeInPast].exp;
+            document.getElementById('user-num').innerText = pastOpsArr[placeInPast].ans;
+        }
     }
 })
 

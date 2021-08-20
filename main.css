@@ -1,51 +1,56 @@
+
 body {
     background-color: rgb(180, 230, 173);
 }
 #calculator-bg {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: block;
     direction: rtl;
     position: relative;
-    width: 270px;
-    height: 285px;
+    width: 500px;
+    height: 540px;
     border-radius: 10px;
     background-color: rgb(48, 44, 59);
+    margin: auto;
 }
 
 #user-num {
     position: relative;
-    background-color: rgb(179, 192, 218);
+    background-color: rgb(215, 223, 238);
+    font-size: 40px;
     border-radius: 10px;
     display: block;
-    margin: 0 15px 0 auto;
-    padding: 5px;
-    bottom: 15px;
-    width: 120px;
-    height: 30px;
+    margin: 0 30px 0 auto;
+    padding: 10px;
+    top: -40px;
+    width: 200px;
+    height: 60px;
     overflow: hidden;
     unicode-bidi: plaintext;
     text-align: right;
 }
 
 #expression {
-    background-color: rgb(179, 192, 218);
+    background-color: rgb(215, 223, 238);
     border-radius: 10px;
+    font-size: 40px;
     color: rgb(122, 122, 122);
     position: relative;
     display: block;
-    margin: 0 auto 0 15px;
-    padding: 5px;
-    top: 25px;
-    width: 120px;
-    height: 30px;
+    margin: 0 auto 0 30px;
+    padding: 10px;
+    top: 40px;
+    width: 220px;
+    height: 60px;
     overflow: hidden;
     unicode-bidi: plaintext;
     text-align: left;
 }
 
 .num-div > div, .function-btns > div {
-    height: 40px;
-    width: 40px;
-    line-height: 40px;
+    height: 80px;
+    width: 80px;
+    line-height: 80px;
     position: relative;
     background-color: gray;
     cursor: pointer;
@@ -53,7 +58,7 @@ body {
 }
 
 .num-div {
-    margin: 0 10px 0 10px;
+    margin: 0 10px 0 30px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat((3, 1fr));
@@ -63,25 +68,26 @@ body {
 }
 
 .function-btns {
-    margin: 0 10px 0 10px;
+    margin: 0 30px 0 10px;
     display: grid;
     float: right;
     grid-template-columns: repeat(2, 40px);
     grid-template-rows: repeat((3, 1fr));
-    gap: 10px;
+    column-gap: 50px;
+    row-gap: 10px;
     text-align: center;
+}
+
+.function-btns > div:active {
+    background-color: rgb(116, 116, 116);
 }
 
 #equal-btn {
     grid-column: 1 / 2;
-    position: absolute;
-    width: 90px;
-    height: 40px;
-    line-height: 40px;
+    width: 170px;
+    height: 80px;
     position: relative;
     background-color: rgb(86, 187, 86);
-    cursor: pointer;
-    text-align: center;
 }
 
 
@@ -91,4 +97,8 @@ body {
 
 #clear-btn {
     background-color: rgb(255, 255, 138);
+}
+
+#expo-btn {
+    line-height: 70px;
 }
